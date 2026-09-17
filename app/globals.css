@@ -244,7 +244,20 @@ html.reveal-ready [data-reveal].on {
   isolation: isolate;
 }
 .hero-bg { position: absolute; inset: 0; z-index: 0; }
-.hero-scrim { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+/* Spec §5.2, plus a radial wash over the copy corner: the shipped render has
+   its pin labels baked in and the lower-left one lands on the eyebrow. The
+   wash goes with the label-free render (spec §11). */
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(118% 66% at 8% 74%, rgba(5, 16, 9, 0.97) 0%, rgba(5, 16, 9, 0.92) 34%, rgba(5, 16, 9, 0.62) 56%, rgba(5, 16, 9, 0) 80%),
+    linear-gradient(180deg, rgba(5, 16, 9, 0.62) 0%, rgba(5, 16, 9, 0.05) 16%, rgba(5, 16, 9, 0) 50%, rgba(5, 16, 9, 0.7) 76%, rgba(5, 16, 9, 0.94) 100%),
+    linear-gradient(90deg, rgba(5, 16, 9, 0.3) 0%, rgba(5, 16, 9, 0) 45%);
+}
+.hero-img { object-fit: cover; object-position: 50% 50%; }
 
 .hero-copy {
   position: absolute;
@@ -577,7 +590,16 @@ html.reveal-ready [data-reveal].on {
   isolation: isolate;
 }
 .closer-bg { position: absolute; inset: 0; z-index: 0; }
-.closer-scrim { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.closer-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(5, 12, 18, 0.88) 0%, rgba(5, 12, 18, 0.58) 36%, rgba(5, 12, 18, 0.06) 60%, rgba(5, 12, 18, 0) 100%),
+    linear-gradient(180deg, rgba(5, 12, 18, 0.2) 0%, rgba(5, 12, 18, 0) 30%, rgba(5, 12, 18, 0) 52%, rgba(5, 12, 18, 0.9) 82%, #060d12 100%);
+}
+.closer-img { object-fit: cover; object-position: 65% 50%; }
 .closer-inner {
   position: relative;
   z-index: 2;
@@ -691,15 +713,6 @@ html.reveal-ready [data-reveal].on {
 }
 
 @media (max-width: 767px) {
-  .hero-scrim {
-    background: linear-gradient(
-      180deg,
-      rgba(5, 16, 9, 0.82) 0%,
-      rgba(5, 16, 9, 0.62) 26%,
-      rgba(5, 16, 9, 0.58) 56%,
-      rgba(5, 16, 9, 0.92) 100%
-    ) !important;
-  }
   .hero-sub { font-size: 16px; }
   .hero-copy { gap: 18px; }
   .hero-mobile-pin {
@@ -744,7 +757,7 @@ html.reveal-ready [data-reveal].on {
   .scoreboard-venue { grid-column: 2; font-size: 16px; line-height: 1.25; }
   .scoreboard-price { grid-column: 3; font-size: 15px; white-space: nowrap; }
   .scoreboard-meta { font-size: 12px; margin-top: 3px; }
-  .scoreboard-meta-tag { display: inline; font-weight: 600; color: var(--accent); }
+  .scoreboard-meta-tag { display: inline-block; white-space: nowrap; font-weight: 600; color: var(--accent); }
   .scoreboard-tag { display: none; }
   .scoreboard-arrow { grid-column: 4; grid-row: 1 / 3; align-self: center; }
 
@@ -847,4 +860,55 @@ html.reveal-ready .owners-board.on .owners-cell-1 {
 @media (prefers-reduced-motion: reduce) {
   .hero-play, .closer-lamps { display: none; }
   .scoreboard-plane::after { display: none; }
+}
+
+/* ── Mobile cleanup ──────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  /* The render's labels are baked in and every 390px slice of it hits one.
+     On a phone the photo is atmosphere; the scrim carries the copy. */
+  .hero-scrim {
+    background: linear-gradient(
+      180deg,
+      rgba(5, 16, 9, 0.86) 0%,
+      rgba(5, 16, 9, 0.8) 18%,
+      rgba(5, 16, 9, 0.93) 40%,
+      rgba(5, 16, 9, 0.96) 66%,
+      rgba(5, 16, 9, 0.98) 100%
+    );
+  }
+  .hero-img { object-position: 50% 40%; }
+
+  /* Closer: hold the copy at the top, show the striker through a window,
+     go solid before the footer. */
+  .closer-scrim {
+    background: linear-gradient(
+      180deg,
+      rgba(5, 12, 18, 0.9) 0%,
+      rgba(5, 12, 18, 0.84) 34%,
+      rgba(5, 12, 18, 0.5) 50%,
+      rgba(5, 12, 18, 0.9) 64%,
+      #060d12 78%
+    );
+  }
+  .closer-img { object-position: 72% 50%; }
+
+  /* Scrolling rows bleed to the screen edge and fade out, so the cut reads
+     as "more", not "broken". */
+  .sports-list,
+  .scoreboard-tabs {
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter) 48px;
+    width: auto;
+    -webkit-mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 56px), transparent);
+    mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 56px), transparent);
+  }
+  .sports-list { width: calc(100% + var(--gutter) * 2); }
+  .scoreboard-header { gap: 20px; }
+  .scoreboard-tabs { max-width: none; }
+
+  .trust > * { padding-top: 18px; }
+}
+
+@media (max-width: 479px) {
+  .trust { grid-template-columns: 1fr; gap: 20px; padding-bottom: 72px; }
 }
