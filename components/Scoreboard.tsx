@@ -123,7 +123,7 @@ export function Scoreboard({ today }: { today: string }) {
                       track("slot_row_click", { venue: s.slug, time: s.time })
                     }
                   >
-                    <span className="display tabular scoreboard-time">
+                    <span className="display display-sm tabular scoreboard-time">
                       {s.time}
                     </span>
                     <span className="scoreboard-venue">

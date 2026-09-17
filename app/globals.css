@@ -16,6 +16,8 @@
   --night: #07120c;
   --night-blue: #0a1622;
   --accent: #ddf55a;
+  --turf-lit: #74c48d;
+  --em: var(--turf);
 
   --hair-dark: rgba(247, 245, 239, 0.12);
   --hair-light: rgba(15, 26, 19, 0.12);
@@ -76,11 +78,19 @@ a { color: inherit; text-decoration: none; }
 /* ── Type ────────────────────────────────────────────────────────────────── */
 .display {
   font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
-  font-weight: 400;
-  letter-spacing: -0.012em;
+  font-weight: 700;
+  font-variation-settings: "wdth" 88;
+  letter-spacing: -0.02em;
   line-height: 1.02;
+  text-wrap: pretty;
 }
-.display em { font-style: italic; font-weight: inherit; }
+.display em { font-style: normal; font-weight: inherit; color: var(--em); }
+/* Small display sizes drop the expanded width so they stay readable. */
+.display-sm {
+  font-variation-settings: "wdth" 92;
+  font-weight: 650;
+  letter-spacing: -0.004em;
+}
 
 .h1 { font-size: var(--h1); line-height: 1.0; }
 .h2 { font-size: var(--h2); }
@@ -660,6 +670,7 @@ html.reveal-ready [data-reveal].on {
 
 /* ── Closer + Footer ─────────────────────────────────────────────────────── */
 .closer {
+  --em: var(--turf-lit);
   position: relative;
   background: var(--night-blue);
   color: var(--chalk);

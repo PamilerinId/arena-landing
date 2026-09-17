@@ -91,7 +91,7 @@ export function OwnersBoard({ week, range }: { week: number; range: string }) {
         </Tilt>
 
         <p className="owners-stat">
-          <span className="display">{BOOKED_HOURS} hrs</span>
+          <span className="display display-sm">{BOOKED_HOURS} hrs</span>
           <span>
             {OWNERS.board.footNote} · {formatNaira(SAMPLE_SETTLED_NAIRA)} settled to the
             venue&rsquo;s account
