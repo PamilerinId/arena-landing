@@ -8,8 +8,11 @@ import { SearchBar } from "./SearchBar";
 /**
  * The search pill. It straddles the seam between the hero and the board, then
  * sticks to the top of the viewport for the rest of the page. On a phone it
- * rides collapsed as a single line and opens on tap, so it never covers the
- * section it is floating over.
+ * takes the bottom of the hero and rides collapsed once it sticks, so it never
+ * covers the section it is floating over.
+ *
+ * The sentinel marks where the pill sits in the flow, so "stuck" means scrolled
+ * past it — not merely out of view, which is also true before you reach it.
  */
 export function SearchDock() {
   const sentinel = useRef<HTMLDivElement>(null);
@@ -20,9 +23,10 @@ export function SearchDock() {
   useEffect(() => {
     const el = sentinel.current;
     if (!el || typeof IntersectionObserver === "undefined") return;
-    const io = new IntersectionObserver(([entry]) => setStuck(!entry.isIntersecting), {
-      threshold: 1,
-    });
+    const io = new IntersectionObserver(
+      ([entry]) => setStuck(!entry.isIntersecting && entry.boundingClientRect.top < 0),
+      { threshold: 1, rootMargin: "-15px 0px 0px 0px" },
+    );
     io.observe(el);
     return () => io.disconnect();
   }, []);
@@ -59,16 +63,18 @@ export function SearchDock() {
         data-stuck={stuck ? "" : undefined}
         data-open={open ? "" : undefined}
       >
-        <button
-          type="button"
-          className="search-collapsed"
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
-        >
-          <Icon name="search" size={17} />
-          <span>{SEARCH.collapsed}</span>
-        </button>
-        <SearchBar />
+        <div className="search-dock-inner">
+          <button
+            type="button"
+            className="search-collapsed"
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+          >
+            <Icon name="search" size={17} />
+            <span>{SEARCH.collapsed}</span>
+          </button>
+          <SearchBar />
+        </div>
       </div>
     </>
   );
