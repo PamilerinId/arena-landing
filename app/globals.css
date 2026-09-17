@@ -432,7 +432,7 @@ html.reveal-ready [data-reveal].on {
 }
 .scoreboard-markings .court {
   opacity: 0;
-  transition: opacity 700ms var(--ease);
+  transition: opacity 420ms var(--ease);
 }
 .scoreboard-markings .court[data-active] { opacity: 1; }
 .scoreboard-scrim, .scoreboard-markings {
@@ -494,6 +494,19 @@ html.reveal-ready [data-reveal].on {
   transition: background-color 280ms var(--ease);
 }
 .scoreboard-row + .scoreboard-row { border-top: 1px solid rgba(247, 245, 239, 0.07); }
+
+/* Tab switch: the outgoing list fades down over 160ms (matches LEAVE_MS in
+   Scoreboard.tsx), then the new list mounts and its rows fade up in a cascade. */
+.scoreboard-rows { transition: opacity 160ms var(--ease), transform 160ms var(--ease); }
+.scoreboard-rows[data-leaving] { opacity: 0; transform: translateY(6px); }
+.scoreboard-rows .scoreboard-row {
+  animation: row-in 260ms var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 28ms);
+}
+@keyframes row-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
 .scoreboard-row:hover { background: rgba(247, 245, 239, 0.05); }
 .scoreboard-time { font-size: 36px; color: var(--chalk); }
 .scoreboard-venue { font-size: 17px; font-weight: 600; line-height: 1.2; }

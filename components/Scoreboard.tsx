@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SCOREBOARD } from "@/content/copy";
 import { SLOTS, formatNaira } from "@/content/venues";
 import { track } from "@/lib/track";
@@ -14,8 +14,39 @@ import { Turf } from "./Turf";
 const SCRIM =
   "linear-gradient(180deg, rgba(5,16,9,.74), rgba(5,16,9,.66) 50%, rgba(5,16,9,.84))";
 
+/** Matches .scoreboard-rows[data-leaving] in globals.css. */
+const LEAVE_MS = 160;
+
 export function Scoreboard({ today }: { today: string }) {
   const [tab, setTab] = useState<string>(SCOREBOARD.tabs[0]);
+  const [leaving, setLeaving] = useState(false);
+  /** The court switches on click; the rows follow after their fade-out. */
+  const [court, setCourt] = useState<string>(SCOREBOARD.tabs[0]);
+  const timer = useRef<number | null>(null);
+
+  useEffect(
+    () => () => {
+      if (timer.current) window.clearTimeout(timer.current);
+    },
+    [],
+  );
+
+  /** Outgoing rows fade for LEAVE_MS, then the list swaps and the new rows fade in. */
+  function pick(next: string) {
+    if (next === tab) return;
+    if (timer.current) window.clearTimeout(timer.current);
+    setCourt(next);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setTab(next);
+      return;
+    }
+    setLeaving(true);
+    timer.current = window.setTimeout(() => {
+      setTab(next);
+      setLeaving(false);
+      timer.current = null;
+    }, LEAVE_MS);
+  }
 
   const rows =
     tab === SCOREBOARD.tabs[0]
@@ -28,8 +59,12 @@ export function Scoreboard({ today }: { today: string }) {
       className="turf-section scoreboard on-dark"
     >
       <Turf />
-      <div className="scoreboard-scrim" style={{ background: SCRIM }} aria-hidden="true" />
-      <Markings sport={sportFor(tab)} />
+      <div
+        className="scoreboard-scrim"
+        style={{ background: SCRIM }}
+        aria-hidden="true"
+      />
+      <Markings sport={sportFor(court)} />
 
       <div className="scoreboard-inner gutter">
         <Reveal className="scoreboard-header">
@@ -47,7 +82,11 @@ export function Scoreboard({ today }: { today: string }) {
             </h2>
           </div>
 
-          <div className="scoreboard-tabs no-scrollbar" role="tablist" aria-label="Filter by sport">
+          <div
+            className="scoreboard-tabs no-scrollbar"
+            role="tablist"
+            aria-label="Filter by sport"
+          >
             {SCOREBOARD.tabs.map((t) => (
               <button
                 key={t}
@@ -55,7 +94,7 @@ export function Scoreboard({ today }: { today: string }) {
                 role="tab"
                 aria-selected={t === tab}
                 className={`scoreboard-tab${t === tab ? " is-active" : ""}`}
-                onClick={() => setTab(t)}
+                onClick={() => pick(t)}
               >
                 {t}
               </button>
@@ -66,42 +105,62 @@ export function Scoreboard({ today }: { today: string }) {
         <Reveal delay={100}>
           <Tilt dir="left">
             <div className="scoreboard-plane">
-              {rows.map((s) => (
-                <Link
-                  key={s.slug}
-                  href={`/search?venue=${s.slug}&time=${s.time}`}
-                  className="scoreboard-row"
-                  aria-label={`Book ${s.venue} at ${s.time}`}
-                  onClick={() => track("slot_row_click", { venue: s.slug, time: s.time })}
-                >
-                  <span className="display tabular scoreboard-time">{s.time}</span>
-                  <span className="scoreboard-venue">
-                    {s.venue}
-                    <em className="scoreboard-meta">
-                      {s.area} · {s.sport}
-                      {s.tag ? <b className="scoreboard-meta-tag"> · {s.tag}</b> : null}
-                    </em>
-                  </span>
-                  <span className="scoreboard-cell">{s.area}</span>
-                  <span className="scoreboard-cell">{s.sport}</span>
-                  <span className="tabular scoreboard-price">{formatNaira(s.price)}</span>
-                  <span className="scoreboard-tag">{s.tag}</span>
-                  <span className="scoreboard-arrow">
-                    <Icon name="arrow-right" size={18} />
-                  </span>
-                </Link>
-              ))}
+              <div
+                key={tab}
+                className="scoreboard-rows"
+                data-leaving={leaving ? "" : undefined}
+              >
+                {rows.map((s, i) => (
+                  <Link
+                    key={s.slug}
+                    href={`/search?venue=${s.slug}&time=${s.time}`}
+                    className="scoreboard-row"
+                    aria-label={`Book ${s.venue} at ${s.time}`}
+                    style={{ "--i": i } as React.CSSProperties}
+                    onClick={() =>
+                      track("slot_row_click", { venue: s.slug, time: s.time })
+                    }
+                  >
+                    <span className="display tabular scoreboard-time">
+                      {s.time}
+                    </span>
+                    <span className="scoreboard-venue">
+                      {s.venue}
+                      <em className="scoreboard-meta">
+                        {s.area} · {s.sport}
+                        {s.tag ? (
+                          <b className="scoreboard-meta-tag"> · {s.tag}</b>
+                        ) : null}
+                      </em>
+                    </span>
+                    <span className="scoreboard-cell">{s.area}</span>
+                    <span className="scoreboard-cell">{s.sport}</span>
+                    <span className="tabular scoreboard-price">
+                      {formatNaira(s.price)}
+                    </span>
+                    <span className="scoreboard-tag">{s.tag}</span>
+                    <span className="scoreboard-arrow">
+                      <Icon name="arrow-right" size={18} />
+                    </span>
+                  </Link>
+                ))}
+              </div>
             </div>
           </Tilt>
         </Reveal>
 
         <Reveal delay={150} className="scoreboard-footer">
-          <p style={{ fontSize: 14, color: "var(--chalk-3)" }}>{SCOREBOARD.note}</p>
+          <p style={{ fontSize: 14, color: "var(--chalk-3)" }}>
+            {SCOREBOARD.note}
+          </p>
           <Link
             href={SCOREBOARD.cta.href}
             className="btn btn-primary-dark"
             onClick={() =>
-              track("cta_click", { label: SCOREBOARD.cta.label, section: "scoreboard" })
+              track("cta_click", {
+                label: SCOREBOARD.cta.label,
+                section: "scoreboard",
+              })
             }
           >
             {SCOREBOARD.cta.label}
@@ -155,7 +214,14 @@ function FootballLines() {
   return (
     <>
       <circle cx="720" cy="450" r="220" />
-      <circle cx="720" cy="450" r="5" fill="#ffffff" fillOpacity="0.14" stroke="none" />
+      <circle
+        cx="720"
+        cy="450"
+        r="5"
+        fill="#ffffff"
+        fillOpacity="0.14"
+        stroke="none"
+      />
       <path d="M720 0v900M0 450h1440" />
       <path d="M0 140h300v620H0M1440 140h-300v620h300" />
       <path d="M0 300h120v300H0M1440 300h-120v300h120" />
