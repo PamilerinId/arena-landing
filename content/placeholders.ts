@@ -2,8 +2,8 @@
  * Founder decisions that are not made yet.
  * Anything null renders as "[X]" on the page. Never invent a value here.
  */
-export const CANCELLATION_HOURS = null as number | null;
-export const TAKE_RATE_PCT = null as number | null;
+export const CANCELLATION_HOURS = 24 | null;
+export const TAKE_RATE_PCT = 10 | null;
 
 /** Renders a placeholder token when the decision is still open. */
 export function ph(value: number | null): string {
