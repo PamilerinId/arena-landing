@@ -11,3 +11,5 @@ Three transparent PNGs, one per step, detected at build time like the renders:
 Each sits on a shared baseline inside a 437×260 box, `object-fit: contain`,
 bottom-aligned. Landscape crops around 1.7:1 fill the box best. Any step whose
 file is missing falls back to the placeholder line-work in `HowItWorks.tsx`.
+
+Style, inks, prompts and output spec for regenerating these: [`docs/art-direction.md`](../../../docs/art-direction.md).
