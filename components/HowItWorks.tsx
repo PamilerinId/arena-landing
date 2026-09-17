@@ -53,9 +53,6 @@ const SCENES = (() => {
   return all.every((x) => x !== null) ? (all as { src: string; cutout: boolean }[]) : null;
 })();
 
-/** Where each scene's subject sits, so the cover crop keeps it. */
-const FOCUS = ["60% 40%", "50% 58%", "58% 58%"] as const;
-
 /**
  * The three scenes as one full-bleed strip. Each panel is cover-cropped and
  * dissolves into its neighbours and into the page above and below; no frame,
@@ -74,7 +71,7 @@ function Triptych() {
               fill
               sizes="(max-width: 767px) 100vw, 34vw"
               quality={72}
-              style={{ objectFit: "cover", objectPosition: FOCUS[i] }}
+              style={{ objectFit: "cover" }}
             />
           </div>
           <span className="colhead vignette-cap how-scene-cap">{HOW.vignettes[i]}</span>
