@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { HOW } from "@/content/copy";
-import { VIGNETTE_RENDERS, hasRender } from "@/lib/renders";
+import { vignetteRender } from "@/lib/renders";
 import { Reveal } from "./Reveal";
 
 export function HowItWorks() {
@@ -20,9 +20,15 @@ export function HowItWorks() {
         <p className="how-intro">{HOW.intro}</p>
       </Reveal>
 
-      <Reveal delay={100} className="how-panel">
-        <Vignettes />
-      </Reveal>
+      {SCENES ? (
+        <Reveal delay={100} className="how-strip">
+          <Triptych />
+        </Reveal>
+      ) : (
+        <Reveal delay={100} className="how-panel">
+          <Vignettes />
+        </Reveal>
+      )}
 
       <div className="how-steps">
         {HOW.steps.map((s, i) => (
@@ -41,30 +47,51 @@ export function HowItWorks() {
   );
 }
 
+/** Decided at build time: all three scenes present, or none used. */
+const SCENES = (() => {
+  const all = HOW.vignettes.map((_, i) => vignetteRender(i));
+  return all.every((x) => x !== null) ? (all as { src: string; cutout: boolean }[]) : null;
+})();
+
+/** Where each scene's subject sits, so the cover crop keeps it. */
+const FOCUS = ["60% 40%", "50% 58%", "58% 58%"] as const;
+
 /**
- * Three vignettes on one baseline. Each renders its cut-out from
- * public/renders/how/ when the file exists (decided at build time), and the
- * placeholder line-work otherwise. Layout is identical either way.
+ * The three scenes as one full-bleed strip. Each panel is cover-cropped and
+ * dissolves into its neighbours and into the page above and below; no frame,
+ * no baseline. A cut-out (transparent PNG) sits on a dusk wash until its full
+ * scene lands.
  */
+function Triptych() {
+  return (
+    <div className="how-triptych" aria-hidden="true">
+      {SCENES!.map((scene, i) => (
+        <div key={scene.src} className="how-scene" data-cutout={scene.cutout ? "" : undefined}>
+          <div className="how-scene-img">
+            <Image
+              src={`/renders/${scene.src}`}
+              alt=""
+              fill
+              sizes="(max-width: 767px) 100vw, 34vw"
+              quality={72}
+              style={{ objectFit: "cover", objectPosition: FOCUS[i] }}
+            />
+          </div>
+          <span className="colhead vignette-cap how-scene-cap">{HOW.vignettes[i]}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/** Placeholder line-work, used until all three scenes are in. */
 function Vignettes() {
   return (
     <div className="how-vignettes" aria-hidden="true">
       {HOW.vignettes.map((label, i) => {
-        const file = VIGNETTE_RENDERS[i];
-        const art = file && hasRender(file);
         return (
           <div key={label} className="how-vignette">
-            {art ? (
-              <div className="how-art">
-                <Image
-                  src={`/renders/${file}`}
-                  alt=""
-                  fill
-                  sizes="(max-width: 767px) 100vw, 437px"
-                  style={{ objectFit: "contain", objectPosition: "50% 100%" }}
-                />
-              </div>
-            ) : (
+            {(
               <svg viewBox="0 0 437 260" role="presentation">
                 <g
                   fill="var(--ink)"

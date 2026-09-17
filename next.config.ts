@@ -11,8 +11,11 @@ import type { NextConfig } from "next";
 const RENDERS = [
   "hero-pitch.jpg",
   "closer-match.jpg",
+  "how/office.jpg",
   "how/office.png",
+  "how/transit.jpg",
   "how/transit.png",
+  "how/pitch.jpg",
   "how/pitch.png",
   "courts/football.jpg",
   "courts/padel.jpg",
