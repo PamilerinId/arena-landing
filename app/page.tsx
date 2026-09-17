@@ -3,6 +3,7 @@ import { Hero } from "@/components/Hero";
 import { HowItWorks } from "@/components/HowItWorks";
 import { OwnersBoard } from "@/components/OwnersBoard";
 import { Scoreboard } from "@/components/Scoreboard";
+import { SearchDock } from "@/components/SearchDock";
 import { SportsRow } from "@/components/SportsRow";
 import { TrustRow } from "@/components/TrustRow";
 import { isoWeek, weekRange, todayLabel } from "@/lib/dates";
@@ -17,6 +18,7 @@ export default function Page() {
     <>
       <Hero />
       <main>
+        <SearchDock />
         <Scoreboard today={todayLabel(now)} />
         <SportsRow />
         <HowItWorks />

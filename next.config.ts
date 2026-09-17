@@ -9,6 +9,9 @@ import type { NextConfig } from "next";
  * silently fall back to the SVG scenes.
  */
 const RENDERS = [
+  "hero.webm",
+  "hero.mp4",
+  "hero-poster.jpg",
   "hero-pitch.jpg",
   "closer-match.jpg",
   "how/office.jpg",

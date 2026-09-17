@@ -1,22 +1,29 @@
 import Image from "next/image";
 import { HERO } from "@/content/copy";
-import { SLOTS, formatNaira } from "@/content/venues";
-import { HERO_RENDER, hasRender } from "@/lib/renders";
+import { HERO_RENDER, hasRender, heroFilm, heroPoster } from "@/lib/renders";
+import { HeroFilm } from "./HeroFilm";
 import { HeroPins } from "./HeroPins";
 import { HeroPlay } from "./HeroPlay";
 import { LiveDot } from "./LiveDot";
 import { Nav } from "./Nav";
 import { PitchScene } from "./PitchScene";
-import { SearchBar } from "./SearchBar";
 
 export function Hero() {
-  const render = hasRender(HERO_RENDER);
-  const featured = SLOTS[0];
+  const film = heroFilm();
+  const poster = heroPoster();
+  const still = hasRender(HERO_RENDER);
 
   return (
-    <section id="top" className="hero on-dark" aria-label="Find a venue in Lagos">
+    <section
+      id="top"
+      className="hero on-dark"
+      data-film={film.length > 0 ? "" : undefined}
+      aria-label="Find a venue in Lagos"
+    >
       <div className="hero-bg">
-        {render ? (
+        {film.length > 0 ? (
+          <HeroFilm sources={film} poster={poster} alt={HERO.alt} />
+        ) : still ? (
           <Image
             src={`/renders/${HERO_RENDER}`}
             alt={HERO.alt}
@@ -33,8 +40,9 @@ export function Hero() {
 
       <div className="hero-scrim" aria-hidden="true" />
 
-      {/* Pins sit above the scrim so the labels stay crisp. */}
-      {render ? <HeroPlay /> : <HeroPins />}
+      {/* The film carries its own movement; the drawn passing loop is for the
+          still and the SVG scene only. */}
+      {film.length === 0 ? still ? <HeroPlay /> : <HeroPins /> : null}
 
       <Nav />
 
@@ -50,19 +58,6 @@ export function Hero() {
         </h1>
         <p className="hero-sub">{HERO.sub}</p>
       </div>
-
-      <div className="hero-search">
-        <SearchBar />
-      </div>
-
-      <a className="hero-mobile-pin" href="/search">
-        <b>
-          {featured.venue} · {featured.time}
-        </b>
-        <i>
-          {featured.sport} · {featured.area} · {formatNaira(featured.price)}
-        </i>
-      </a>
     </section>
   );
 }
