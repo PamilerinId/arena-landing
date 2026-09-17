@@ -7,9 +7,6 @@ import { MatchScene } from "./PitchScene";
 import { Reveal } from "./Reveal";
 import { Footer } from "./Footer";
 
-const SCRIM =
-  "linear-gradient(90deg, rgba(5,12,18,.88) 0%, rgba(5,12,18,.58) 36%, rgba(5,12,18,.06) 60%, rgba(5,12,18,0) 100%), linear-gradient(180deg, rgba(5,12,18,.20) 0%, rgba(5,12,18,0) 30%, rgba(5,12,18,0) 52%, rgba(5,12,18,.90) 82%, #060D12 100%)";
-
 export function Closer({ year }: { year: number }) {
   const render = hasRender(CLOSER_RENDER);
 
@@ -24,14 +21,14 @@ export function Closer({ year }: { year: number }) {
             loading="lazy"
             quality={70}
             sizes="100vw"
-            style={{ objectFit: "cover", objectPosition: "65% 50%" }}
+            className="closer-img"
           />
         ) : (
           <MatchScene />
         )}
       </div>
 
-      <div className="closer-scrim" style={{ background: SCRIM }} aria-hidden="true" />
+      <div className="closer-scrim" aria-hidden="true" />
       <div className="closer-lamps" aria-hidden="true">
         <span />
         <span />
