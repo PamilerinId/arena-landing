@@ -17,9 +17,9 @@ export default function Page() {
     <>
       <Hero />
       <main>
+        <Scoreboard today={todayLabel(now)} />
         <SportsRow />
         <HowItWorks />
-        <Scoreboard today={todayLabel(now)} />
         <OwnersBoard week={isoWeek(now)} range={weekRange(now)} />
         <TrustRow />
         <Closer year={now.getFullYear()} />

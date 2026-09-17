@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { em } from "@/lib/em";
 import Link from "next/link";
 import { CLOSER } from "@/content/copy";
 import { CLOSER_RENDER, hasRender } from "@/lib/renders";
@@ -49,7 +50,7 @@ export function Closer({ year }: { year: number }) {
               margin: "26px 0 24px",
             }}
           >
-            {CLOSER.heading}
+            {em(CLOSER.heading)}
           </h2>
           <p style={{ fontSize: 19, color: "var(--chalk-2)", maxWidth: 500 }}>{CLOSER.sub}</p>
 

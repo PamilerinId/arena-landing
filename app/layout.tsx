@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Instrument_Sans } from "next/font/google";
+import { Instrument_Sans, Instrument_Serif } from "next/font/google";
 import { META } from "@/content/copy";
 import { Analytics } from "@/components/Analytics";
 import { RevealRoot } from "@/components/RevealRoot";
 import { TurfFilterDefs } from "@/components/Turf";
 import "./globals.css";
 
-const display = Bricolage_Grotesque({
+const display = Instrument_Serif({
   subsets: ["latin"],
-  axes: ["opsz", "wdth"],
+  weight: "400",
+  style: ["normal", "italic"],
   display: "swap",
   variable: "--font-display",
   adjustFontFallback: true,
