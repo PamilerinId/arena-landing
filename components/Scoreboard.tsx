@@ -66,16 +66,6 @@ export function Scoreboard({ today }: { today: string }) {
         <Reveal delay={100}>
           <Tilt dir="left">
             <div className="scoreboard-plane">
-              <div className="scoreboard-colhead" aria-hidden="true">
-                {SCOREBOARD.columns.map((c) => (
-                  <span key={c} className="colhead">
-                    {c}
-                  </span>
-                ))}
-                <span />
-                <span />
-              </div>
-
               {rows.map((s) => (
                 <Link
                   key={s.slug}
