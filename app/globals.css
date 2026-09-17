@@ -486,26 +486,26 @@ html.reveal-ready [data-reveal].on {
 .how-vignette svg { width: 100%; height: auto; }
 /* The scenes as one band that bleeds past the gutter. Panels dissolve into
    each other and into the page; nothing frames them. */
-.how-strip { margin-inline: calc(var(--edge) * -1); }
-.how-triptych {
+/* Scene and step are one item, so a step never drifts from its picture. The
+   wrapper is display:contents: its two children are the grid items, the scenes
+   on the first row and the steps on the second. On a phone the grid is one
+   column and the DOM order alone interleaves them.
+   The scenes need no toning or masking here: each is printed in three inks on
+   the page's own paper and has its edges dissolved into that paper in the file
+   itself. See public/renders/how/README.md. */
+.how-flow {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  row-gap: 30px;
+  margin-inline: calc(var(--edge) * -1);
 }
-.how-scene { position: relative; height: 440px; padding-bottom: 44px; }
-/* The scenes are printed in three inks on the page's own paper, so they need
-   no toning here: their white point is levelled to --ivory in the file. */
-/* No mask: each scene is printed on the page's own paper and its four edges
-   are dissolved into that paper in the file itself, so the panel has no border
-   to hide. See public/renders/how/README.md. */
+.how-item { display: contents; }
+.how-flow .how-scene { grid-row: 1; position: relative; height: 440px; }
+.how-flow .how-step { grid-row: 2; padding-inline: 22px; }
+.how-item:first-child .how-step { padding-left: var(--edge); }
+.how-item:last-child .how-step { padding-right: var(--edge); }
+
 .how-scene-img { position: absolute; inset: 0; }
-.how-scene-cap {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 6px;
-  text-align: center;
-  color: var(--ink-3);
-}
 .how-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
 
 /* ── Scoreboard ──────────────────────────────────────────────────────────── */
@@ -845,8 +845,8 @@ html.reveal-ready [data-reveal].on {
   .searchbar-field:first-child { padding-left: 22px; }
 
   .search-dock[data-stuck] { padding-inline: var(--edge); }
-  .search-dock[data-stuck]:not([data-open]) .searchbar { display: none; }
-  .search-dock[data-stuck]:not([data-open]) .search-collapsed {
+  .search-dock[data-scrolled]:not([data-open]) .searchbar { display: none; }
+  .search-dock[data-scrolled]:not([data-open]) .search-collapsed {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -877,8 +877,13 @@ html.reveal-ready [data-reveal].on {
   .sports-list { width: 100%; gap: 26px; }
 
   .how-vignettes { grid-template-columns: 1fr; gap: 12px; }
-  .how-triptych { grid-template-columns: 1fr; }
-  .how-scene { height: 300px; padding-bottom: 40px; }
+  .how-flow { grid-template-columns: 1fr; row-gap: 22px; }
+  .how-flow .how-scene,
+  .how-flow .how-step { grid-row: auto; }
+  .how-flow .how-scene { height: 280px; }
+  .how-flow .how-step { padding-inline: var(--edge); margin-bottom: 26px; }
+  .how-item:first-child .how-step,
+  .how-item:last-child .how-step { padding-inline: var(--edge); }
   .how-steps { grid-template-columns: 1fr; gap: 36px; }
 
   .scoreboard-plane { padding: 6px 8px; min-height: 0; }
@@ -921,6 +926,63 @@ html.reveal-ready [data-reveal].on {
   z-index: 2;
   pointer-events: none;
   opacity: 0.6;
+}
+
+/* Hero pitch plan: the venues laid out on a pitch, to the right of the copy.
+   Desktop only, above the scrim, never interactive. */
+.hero-pitch {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 60%;
+  right: var(--edge);
+  transform: translateY(-54%);
+  pointer-events: none;
+  overflow: visible;
+  display: none;
+}
+/* It takes a column of its own, so it only runs where the copy can spare one. */
+@media (min-width: 1280px) {
+  .hero-pitch { display: block; }
+  .hero[data-film] .hero-copy { max-width: 58%; }
+}
+.hero-pitch-lines {
+  stroke: rgba(247, 245, 239, 0.42);
+  stroke-width: 2.4;
+  fill: none;
+}
+.hero-pitch-spot { fill: rgba(247, 245, 239, 0.55); stroke: none; }
+.hero-pitch-goal { stroke: rgba(247, 245, 239, 0.34); }
+.hero-pitch-formation {
+  stroke: rgba(247, 245, 239, 0.34);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-dasharray: 2.5 16;
+}
+.hero-pitch-pass {
+  stroke: rgba(247, 245, 239, 0.8);
+  stroke-width: 3.6;
+  stroke-linecap: round;
+}
+.hero-pitch-ring { stroke: var(--accent); stroke-width: 3; fill: none; }
+.hero-pitch-halo { fill: var(--accent); opacity: 0.18; }
+.hero-pitch-dot { fill: var(--accent); }
+.hero-pitch-ball-glow { fill: var(--accent); opacity: 0.22; }
+.hero-pitch-ball { fill: var(--accent); }
+.hero-pitch-venue {
+  fill: var(--chalk);
+  font-family: var(--font-text), ui-sans-serif, system-ui, sans-serif;
+  font-size: 26px;
+  font-weight: 600;
+  paint-order: stroke;
+  stroke: rgba(5, 15, 9, 0.5);
+  stroke-width: 4;
+}
+.hero-pitch-meta {
+  fill: var(--chalk-3);
+  font-family: var(--font-text), ui-sans-serif, system-ui, sans-serif;
+  font-size: 19px;
+  font-variant-numeric: tabular-nums;
 }
 
 /* Closer floodlights, breathing on their own cadence. */
@@ -995,7 +1057,7 @@ html.reveal-ready .owners-board.on .owners-cell-1 {
   .closer-lamps { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hero-play, .closer-lamps { display: none; }
+  .hero-play, .closer-lamps, .hero-pitch { display: none; }
   .scoreboard-plane::after { display: none; }
 }
 

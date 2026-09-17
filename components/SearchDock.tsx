@@ -18,6 +18,7 @@ export function SearchDock() {
   const sentinel = useRef<HTMLDivElement>(null);
   const dock = useRef<HTMLDivElement>(null);
   const [stuck, setStuck] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -31,11 +32,21 @@ export function SearchDock() {
     return () => io.disconnect();
   }, []);
 
+  // On a phone the full form owns the bottom of the hero, so it collapses the
+  // moment the page moves rather than riding up at full height. Setting the
+  // same value is a no-op in React, so this costs one comparison per scroll.
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   // Collapse again once it is back on the seam, so the phone never scrolls up
   // to a half-open form.
   useEffect(() => {
-    if (!stuck) setOpen(false);
-  }, [stuck]);
+    if (!scrolled) setOpen(false);
+  }, [scrolled]);
 
   // Opened, it covers what is behind it, so a tap outside or Escape closes it.
   useEffect(() => {
@@ -61,6 +72,7 @@ export function SearchDock() {
         ref={dock}
         className="search-dock"
         data-stuck={stuck ? "" : undefined}
+        data-scrolled={scrolled ? "" : undefined}
         data-open={open ? "" : undefined}
       >
         <div className="search-dock-inner">

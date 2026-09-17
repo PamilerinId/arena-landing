@@ -3,6 +3,7 @@ import { HERO } from "@/content/copy";
 import { HERO_RENDER, hasRender, heroFilm, heroPoster } from "@/lib/renders";
 import { HeroFilm } from "./HeroFilm";
 import { HeroPins } from "./HeroPins";
+import { HeroPitch } from "./HeroPitch";
 import { HeroPlay } from "./HeroPlay";
 import { LiveDot } from "./LiveDot";
 import { Nav } from "./Nav";
@@ -40,9 +41,10 @@ export function Hero() {
 
       <div className="hero-scrim" aria-hidden="true" />
 
-      {/* The film carries its own movement; the drawn passing loop is for the
-          still and the SVG scene only. */}
-      {film.length === 0 ? still ? <HeroPlay /> : <HeroPins /> : null}
+      {/* Over the film, the venues are laid out on a pitch plan beside the copy.
+          The still has its own pins baked in, so it keeps the passing loop over
+          the render itself, and the drawn scene keeps its labelled pins. */}
+      {film.length > 0 ? <HeroPitch /> : still ? <HeroPlay /> : <HeroPins />}
 
       <Nav />
 
