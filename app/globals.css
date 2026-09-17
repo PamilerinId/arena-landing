@@ -400,6 +400,23 @@ html.reveal-ready [data-reveal].on {
   padding-bottom: 20px;
 }
 .how-vignette svg { width: 100%; height: auto; }
+.how-art {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 437 / 260;
+  padding-bottom: 48px; /* art sits on the same baseline as the placeholders */
+  box-sizing: border-box;
+}
+.how-art::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 48px;
+  height: 1px;
+  background: var(--hair-light);
+}
+.how-art img { bottom: 48px !important; height: auto !important; top: auto !important; max-height: calc(100% - 48px); }
 .how-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
 
 /* ── Scoreboard ──────────────────────────────────────────────────────────── */
@@ -407,6 +424,11 @@ html.reveal-ready [data-reveal].on {
   color: var(--chalk);
   overflow: hidden;
 }
+.scoreboard-markings .court {
+  opacity: 0;
+  transition: opacity 700ms var(--ease);
+}
+.scoreboard-markings .court[data-active] { opacity: 1; }
 .scoreboard-scrim, .scoreboard-markings {
   position: absolute;
   inset: 0;
@@ -448,6 +470,8 @@ html.reveal-ready [data-reveal].on {
 .scoreboard-tab.is-active { color: var(--chalk); border-bottom-color: var(--chalk); }
 
 .scoreboard-plane {
+  /* Six rows' worth, so filtering to one row does not reflow the page. */
+  min-height: 560px;
   background: rgba(6, 18, 11, 0.84);
   border: 1px solid var(--hair-dark);
   border-radius: var(--radius-m);
@@ -744,7 +768,7 @@ html.reveal-ready [data-reveal].on {
   .how-vignettes { grid-template-columns: 1fr; gap: 12px; }
   .how-steps { grid-template-columns: 1fr; gap: 36px; }
 
-  .scoreboard-plane { padding-inline: 18px; }
+  .scoreboard-plane { padding-inline: 18px; min-height: 0; }
   .scoreboard-colhead { display: none; }
   .scoreboard-row {
     grid-template-columns: auto minmax(0, 1fr) auto 24px;
