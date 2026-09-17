@@ -12,6 +12,8 @@ Rules:
 - Placeholders in `content/placeholders.ts` render `[X]` when null; never invent numbers.
 - Run `pnpm lint && pnpm typecheck && pnpm build` before claiming done. Lighthouse mobile on `/` must pass §9 of the spec.
 
-Renders: `lib/renders.ts` checks whether `public/renders/*.jpg` exists at build time.
+Renders: `next.config.ts` checks whether `public/renders/*.jpg` exists at build time and
+inlines the answer; `lib/renders.ts` reads it. Never check the filesystem at request time —
+on Vercel `public/` is not on the function's disk.
 Present → `next/image`. Absent → the inline SVG scenes in `components/PitchScene.tsx`.
 Dropping the real files in is the whole swap; no component changes.

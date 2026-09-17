@@ -1,17 +1,13 @@
-import fs from "node:fs";
-import path from "node:path";
-
 /**
- * The two hero/closer renders are large binaries kept out of git history until
- * they land. Until then every section falls back to a built-in scene so the page
- * is never a broken image. Drop the file into public/renders/ and it is used.
+ * The renders present at build time, as decided in next.config.ts and inlined
+ * here as a constant. If a file is missing the section falls back to the inline
+ * SVG scene so the page is never a broken image. Drop the file into
+ * public/renders/ and rebuild; nothing else changes.
  */
+const present = new Set((process.env.RENDERS ?? "").split(",").filter(Boolean));
+
 export function hasRender(file: string): boolean {
-  try {
-    return fs.existsSync(path.join(process.cwd(), "public", "renders", file));
-  } catch {
-    return false;
-  }
+  return present.has(file);
 }
 
 export const HERO_RENDER = "hero-pitch.jpg";
