@@ -14,7 +14,7 @@ export const NAV = {
 export const HERO = {
   eyebrow: "Lagos · Private pitches, courts & gyms",
   headline: ["Book the pitch.", "Skip the phone calls."],
-  sub: "Real-time availability at private astroturf pitches, courts and gyms across Lagos. Pick a slot, pay by card or transfer, confirmed in seconds.",
+  sub: "Real-time availability across Lagos. Pay by card or transfer, confirmed in seconds.",
   alt: "Floodlit private five-a-side pitch in Lagos, viewed from above, with tonight's open slots pinned",
 } as const;
 

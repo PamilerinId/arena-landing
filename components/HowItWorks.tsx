@@ -33,7 +33,7 @@ export function HowItWorks() {
       <div className="how-steps">
         {HOW.steps.map((s, i) => (
           <Reveal key={s.n} delay={150 + i * 100}>
-            <span className="display" style={{ fontSize: 30, color: "var(--ink-3)" }}>
+            <span className="display display-sm" style={{ fontSize: 30, color: "var(--ink-3)" }}>
               {s.n}
             </span>
             <h3 style={{ fontSize: 22, fontWeight: 700, margin: "12px 0 10px", letterSpacing: "-0.01em" }}>

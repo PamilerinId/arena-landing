@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
-import { Instrument_Sans, Instrument_Serif } from "next/font/google";
+import { Archivo, Instrument_Sans } from "next/font/google";
 import { META } from "@/content/copy";
 import { Analytics } from "@/components/Analytics";
 import { RevealRoot } from "@/components/RevealRoot";
 import { TurfFilterDefs } from "@/components/Turf";
 import "./globals.css";
 
-const display = Instrument_Serif({
+const display = Archivo({
   subsets: ["latin"],
-  weight: "400",
-  style: ["normal", "italic"],
+  axes: ["wdth"],
   display: "swap",
   variable: "--font-display",
   adjustFontFallback: true,

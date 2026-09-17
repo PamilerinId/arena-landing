@@ -18,7 +18,7 @@ export function Wordmark({ tone = "dark" }: { tone?: "dark" | "light" }) {
         <circle cx="13" cy="13" r="3.6" fill="none" stroke="currentColor" strokeWidth="1.6" />
         <path d="M13 1.5v3.4M13 21.1v3.4" stroke="currentColor" strokeWidth="1.6" />
       </svg>
-      <span className="display" style={{ fontSize: 23, letterSpacing: "0.12em" }}>
+      <span className="display display-sm" style={{ fontSize: 23, letterSpacing: "0.1em" }}>
         ARENA
       </span>
     </span>

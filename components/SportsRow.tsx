@@ -7,8 +7,8 @@ import { Icon, type IconName } from "./Icon";
 
 export function SportsRow() {
   return (
-    <section id="sports" aria-label="Sports" className="sports-row gutter">
-      <span className="eyebrow eyebrow-ink">{SPORTS.label}</span>
+    <section id="sports" aria-label="Sports" className="sports-row gutter on-dark">
+      <span className="eyebrow">{SPORTS.label}</span>
       <nav className="sports-list no-scrollbar" aria-label="Browse by sport">
         {SPORTS.items.map((s) => (
           <Link

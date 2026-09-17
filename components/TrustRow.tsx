@@ -9,7 +9,7 @@ export function TrustRow() {
           <b style={{ fontSize: 16, fontWeight: 700, display: "block", marginBottom: 8 }}>
             {t.title}
           </b>
-          <span style={{ fontSize: 15, color: "var(--ink-2)" }}>{t.body}</span>
+          <span style={{ fontSize: 15, color: "var(--body-2)" }}>{t.body}</span>
         </Reveal>
       ))}
     </section>

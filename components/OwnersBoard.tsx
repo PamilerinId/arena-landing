@@ -17,13 +17,13 @@ import { Tilt } from "./Tilt";
 
 export function OwnersBoard({ week, range }: { week: number; range: string }) {
   return (
-    <section id="owners" aria-labelledby="owners-heading" className="owners gutter">
+    <section id="owners" aria-labelledby="owners-heading" className="owners gutter on-dark">
       <Reveal className="owners-copy">
-        <span className="eyebrow eyebrow-ink">{OWNERS.eyebrow}</span>
+        <span className="eyebrow">{OWNERS.eyebrow}</span>
         <h2 id="owners-heading" className="display h2" style={{ margin: "18px 0 20px" }}>
           {em(OWNERS.heading)}
         </h2>
-        <p style={{ fontSize: 17, color: "var(--ink-2)", maxWidth: 520 }}>{OWNERS.sub}</p>
+        <p style={{ fontSize: 17, color: "var(--body-2)", maxWidth: 520 }}>{OWNERS.sub}</p>
 
         <ul className="owners-rows">
           {OWNERS.rows.map((r) => (
@@ -37,14 +37,14 @@ export function OwnersBoard({ week, range }: { week: number; range: string }) {
         <div className="owners-actions">
           <Link
             href={OWNERS.primary.href}
-            className="btn btn-primary-light"
+            className="btn btn-primary-dark"
             onClick={() => track("list_venue_click", { source: "owners" })}
           >
             {OWNERS.primary.label}
           </Link>
           <a
             href={`https://wa.me/${WHATSAPP_NUMBER}`}
-            className="btn btn-secondary-light"
+            className="btn btn-secondary-dark"
             target="_blank"
             rel="noopener noreferrer"
             onClick={() =>
@@ -91,7 +91,7 @@ export function OwnersBoard({ week, range }: { week: number; range: string }) {
         </Tilt>
 
         <p className="owners-stat">
-          <span className="display">{BOOKED_HOURS} hrs</span>
+          <span className="display display-sm">{BOOKED_HOURS} hrs</span>
           <span>
             {OWNERS.board.footNote} · {formatNaira(SAMPLE_SETTLED_NAIRA)} settled to the
             venue&rsquo;s account
