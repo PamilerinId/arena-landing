@@ -32,6 +32,10 @@ export function Closer({ year }: { year: number }) {
       </div>
 
       <div className="closer-scrim" style={{ background: SCRIM }} aria-hidden="true" />
+      <div className="closer-lamps" aria-hidden="true">
+        <span />
+        <span />
+      </div>
 
       <div className="closer-inner gutter">
         <Reveal className="closer-copy">

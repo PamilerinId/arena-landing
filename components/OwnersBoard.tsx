@@ -106,8 +106,15 @@ function Row({ label, row }: { label: string; row: number }) {
     <>
       <span className="owners-time">{label}</span>
       {DAY_LABELS.map((_, col) => {
-        const state = OCCUPANCY[row * 7 + col];
-        return <span key={col} className={`owners-cell owners-cell-${state}`} />;
+        const i = row * 7 + col;
+        const state = OCCUPANCY[i];
+        return (
+          <span
+            key={col}
+            className={`owners-cell owners-cell-${state}`}
+            style={{ "--i": i } as React.CSSProperties}
+          />
+        );
       })}
     </>
   );

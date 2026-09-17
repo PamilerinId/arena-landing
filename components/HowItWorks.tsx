@@ -132,6 +132,7 @@ function BridgeVignette() {
       </g>
 
       {/* car with the driver */}
+      <g className="anim-drift">
       <path d="M170 198v-22c0-8 5-13 13-15l34-8c11-10 26-15 43-15h44c17 0 32 5 43 15l34 8c8 2 13 7 13 15v22z" />
       <circle cx="212" cy="198" r="20" />
       <circle cx="352" cy="198" r="20" />
@@ -146,7 +147,7 @@ function BridgeVignette() {
       />
       <circle cx="268" cy="146" r="11" />
       <path d="M252 160c0-11 7-18 16-18s16 7 16 18z" />
-      <path d="M170 210h190" stroke="var(--ink)" strokeWidth="0" />
+      </g>
     </>
   );
 }
@@ -189,8 +190,10 @@ function KickoffVignette() {
       </g>
 
       {/* ball */}
-      <circle cx="390" cy="164" r="18" />
-      <path d="M390 155l8 6-3 10h-10l-3-10z" fill="var(--ivory)" stroke="none" />
+      <g className="anim-bob">
+        <circle cx="390" cy="164" r="18" />
+        <path d="M390 155l8 6-3 10h-10l-3-10z" fill="var(--ivory)" stroke="none" />
+      </g>
     </>
   );
 }
