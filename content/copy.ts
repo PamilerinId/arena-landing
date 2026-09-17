@@ -81,7 +81,7 @@ export const SCOREBOARD = {
 
 export const OWNERS = {
   eyebrow: "For venue owners",
-  heading: "Your empty hours are inventory.",
+  heading: "Your empty hours are *inventory*.",
   sub: "List your pitch, court or gym once. Arena sells the off-peak slots you are not filling, takes payment upfront so no-shows do not cost you, and settles straight to your bank account.",
   rows: [
     {
@@ -131,7 +131,7 @@ export const TRUST = [
 
 export const CLOSER = {
   eyebrow: "Kick-off was 19:00",
-  heading: "They’re already playing.",
+  heading: "They’re *already* playing.",
   sub: "Your next game is one search away. Find a slot, pay once, show up.",
   primary: { label: "Find a slot", href: "#top" },
   secondary: { label: "List your venue", href: "/list-your-venue" },

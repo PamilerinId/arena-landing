@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { em } from "@/lib/em";
 import { OWNERS } from "@/content/copy";
 import {
   BOOKED_HOURS,
@@ -20,7 +21,7 @@ export function OwnersBoard({ week, range }: { week: number; range: string }) {
       <Reveal className="owners-copy">
         <span className="eyebrow eyebrow-ink">{OWNERS.eyebrow}</span>
         <h2 id="owners-heading" className="display h2" style={{ margin: "18px 0 20px" }}>
-          {OWNERS.heading}
+          {em(OWNERS.heading)}
         </h2>
         <p style={{ fontSize: 17, color: "var(--ink-2)", maxWidth: 520 }}>{OWNERS.sub}</p>
 
