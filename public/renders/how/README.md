@@ -1,15 +1,25 @@
-# How-it-works cut-outs
+# How-it-works scenes
 
-Three transparent PNGs, one per step, detected at build time like the renders:
+`office.jpg`, `transit.jpg`, `pitch.jpg` — one per step, in step order. All
+three must be present or the section falls back to the drawn vignettes in
+`components/HowItWorks.tsx`.
 
-| File | Step | Caption |
-|---|---|---|
-| `office.png` | 01 | 5:30 PM · At your desk |
-| `transit.png` | 02 | 6:15 PM · On the bridge |
-| `pitch.png` | 03 | 7:00 PM · Kick-off |
+The files committed here are normalised for the strip, not the raw
+generations. Each one is:
 
-Each sits on a shared baseline inside a 437×260 box, `object-fit: contain`,
-bottom-aligned. Landscape crops around 1.7:1 fill the box best. Any step whose
-file is missing falls back to the placeholder line-work in `HowItWorks.tsx`.
+1. trimmed of any photographed card border,
+2. white-balanced so its paper reads exactly `--ivory` (#f5f3ec), the ground
+   the strip sits on, so the panels dissolve into the page instead of
+   sitting on it as plates,
+3. framed on its own ink bounding box, so the subject is the same size in
+   every panel, and
+4. resized to 1600 wide at the panel's 480:396 box.
 
-Style, inks, prompts and output spec for regenerating these: [`docs/art-direction.md`](../../../docs/art-direction.md).
+The scene printed as a solid block (`transit`) is framed to overfill its
+panel, so its own straight edges fall outside; the two printed as objects on
+paper (`office`, `pitch`) keep their margins.
+
+Replacing a scene means redoing that pass, otherwise the strip comes apart:
+mismatched papers read as three separate pictures, which is what this
+treatment exists to avoid. The panels are cover-cropped and centred, so the
+component needs no per-scene focus point.

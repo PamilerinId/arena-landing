@@ -26,6 +26,7 @@ export const SEARCH = {
     time: { label: "Time", options: ["From 6:00 PM", "From 7:00 PM", "From 8:00 PM", "From 9:00 PM", "Any time"] },
   },
   submit: "Find slots",
+  collapsed: "Find a pitch, court or gym",
 } as const;
 
 export const SPORTS = {
