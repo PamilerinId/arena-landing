@@ -14,6 +14,10 @@ const RENDERS = [
   "how/office.png",
   "how/transit.png",
   "how/pitch.png",
+  "courts/football.jpg",
+  "courts/padel.jpg",
+  "courts/tennis.jpg",
+  "courts/basketball.jpg",
 ].filter((file) => existsSync(join(process.cwd(), "public", "renders", file)));
 
 const nextConfig: NextConfig = {

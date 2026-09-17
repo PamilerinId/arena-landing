@@ -1,9 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { SCOREBOARD } from "@/content/copy";
 import { SLOTS, formatNaira } from "@/content/venues";
+import { COURT_RENDERS, hasRender } from "@/lib/renders";
 import { track } from "@/lib/track";
 import { Icon } from "./Icon";
 import { LiveDot } from "./LiveDot";
@@ -183,10 +185,33 @@ function sportFor(tab: string): CourtSport {
 const COURTS: CourtSport[] = ["football", "padel", "tennis", "basketball"];
 
 /**
- * Faint court markings under the board. One <g> per sport, all mounted, only
- * the active one visible; the crossfade is a CSS opacity transition.
+ * The court under the board. Each sport is a photo from public/renders/courts/
+ * when the file exists (decided at build time), line markings otherwise. All
+ * four stay mounted; only the active one is visible, crossfaded in CSS.
  */
 function Markings({ sport }: { sport: CourtSport }) {
+  return (
+    <>
+      <div className="scoreboard-courts" aria-hidden="true">
+        {COURTS.filter((c) => hasRender(COURT_RENDERS[c])).map((c) => (
+          <div key={c} className="court" data-active={c === sport ? "" : undefined}>
+            <Image
+              src={`/renders/${COURT_RENDERS[c]}`}
+              alt=""
+              fill
+              sizes="100vw"
+              quality={70}
+              style={{ objectFit: "cover", objectPosition: "50% 50%" }}
+            />
+          </div>
+        ))}
+      </div>
+      <MarkingLines sport={sport} />
+    </>
+  );
+}
+
+function MarkingLines({ sport }: { sport: CourtSport }) {
   return (
     <svg
       className="scoreboard-markings"
@@ -198,7 +223,7 @@ function Markings({ sport }: { sport: CourtSport }) {
       strokeOpacity="0.14"
       strokeWidth="2"
     >
-      {COURTS.map((c) => (
+      {COURTS.filter((c) => !hasRender(COURT_RENDERS[c])).map((c) => (
         <g key={c} className="court" data-active={c === sport ? "" : undefined}>
           {c === "football" && <FootballLines />}
           {c === "padel" && <PadelLines />}

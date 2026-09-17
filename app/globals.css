@@ -430,11 +430,16 @@ html.reveal-ready [data-reveal].on {
   color: var(--chalk);
   overflow: hidden;
 }
-.scoreboard-markings .court {
+.scoreboard-markings .court,
+.scoreboard-courts .court {
   opacity: 0;
   transition: opacity 420ms var(--ease);
 }
-.scoreboard-markings .court[data-active] { opacity: 1; }
+.scoreboard-markings .court[data-active],
+.scoreboard-courts .court[data-active] { opacity: 1; }
+/* Photo courts: below the scrim (z 1) and the turf fibres, above the flat colour. */
+.scoreboard-courts { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.scoreboard-courts .court { position: absolute; inset: 0; }
 .scoreboard-scrim, .scoreboard-markings {
   position: absolute;
   inset: 0;
