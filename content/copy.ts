@@ -75,7 +75,6 @@ export const SCOREBOARD = {
   eyebrow: "Live availability",
   heading: "Tonight in Lagos.",
   tabs: ["All sports", "Football", "Padel", "Tennis", "Basketball"],
-  columns: ["Kick-off", "Venue", "Area", "Sport", "Per hour"],
   note: "Prices are set by each venue and shown per hour.",
   cta: { label: "Browse all venues", href: "/search" },
 } as const;

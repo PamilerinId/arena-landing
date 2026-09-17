@@ -12,3 +12,14 @@ export function hasRender(file: string): boolean {
 
 export const HERO_RENDER = "hero-pitch.jpg";
 export const CLOSER_RENDER = "closer-match.jpg";
+
+/** One cut-out per how-it-works step, in step order. Transparent PNGs. */
+export const VIGNETTE_RENDERS = ["how/office.png", "how/transit.png", "how/pitch.png"] as const;
+
+/** One photo per court under the scoreboard, keyed by tab sport. */
+export const COURT_RENDERS = {
+  football: "courts/football.jpg",
+  padel: "courts/padel.jpg",
+  tennis: "courts/tennis.jpg",
+  basketball: "courts/basketball.jpg",
+} as const;

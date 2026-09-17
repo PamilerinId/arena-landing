@@ -1,4 +1,6 @@
+import Image from "next/image";
 import { HOW } from "@/content/copy";
+import { VIGNETTE_RENDERS, hasRender } from "@/lib/renders";
 import { Reveal } from "./Reveal";
 
 export function HowItWorks() {
@@ -40,38 +42,54 @@ export function HowItWorks() {
 }
 
 /**
- * Placeholder artwork, flagged for replacement by final cut-paper silhouettes.
- * Each vignette is its own <g> on one baseline so it can be swapped for an
- * <image> without touching layout. Mobile stacks the same three crops.
+ * Three vignettes on one baseline. Each renders its cut-out from
+ * public/renders/how/ when the file exists (decided at build time), and the
+ * placeholder line-work otherwise. Layout is identical either way.
  */
 function Vignettes() {
   return (
     <div className="how-vignettes" aria-hidden="true">
-      {HOW.vignettes.map((label, i) => (
-        <div key={label} className="how-vignette">
-          <svg viewBox="0 0 437 260" role="presentation">
-            <g
-              fill="var(--ink)"
-              stroke="var(--ink)"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              {i === 0 && <DeskVignette />}
-              {i === 1 && <BridgeVignette />}
-              {i === 2 && <KickoffVignette />}
-            </g>
-            <line
-              x1="0"
-              y1="212"
-              x2="437"
-              y2="212"
-              stroke="var(--hair-light)"
-              strokeWidth="1"
-            />
-          </svg>
-          <span className="colhead vignette-cap">{label}</span>
-        </div>
-      ))}
+      {HOW.vignettes.map((label, i) => {
+        const file = VIGNETTE_RENDERS[i];
+        const art = file && hasRender(file);
+        return (
+          <div key={label} className="how-vignette">
+            {art ? (
+              <div className="how-art">
+                <Image
+                  src={`/renders/${file}`}
+                  alt=""
+                  fill
+                  sizes="(max-width: 767px) 100vw, 437px"
+                  style={{ objectFit: "contain", objectPosition: "50% 100%" }}
+                />
+              </div>
+            ) : (
+              <svg viewBox="0 0 437 260" role="presentation">
+                <g
+                  fill="var(--ink)"
+                  stroke="var(--ink)"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  {i === 0 && <DeskVignette />}
+                  {i === 1 && <BridgeVignette />}
+                  {i === 2 && <KickoffVignette />}
+                </g>
+                <line
+                  x1="0"
+                  y1="212"
+                  x2="437"
+                  y2="212"
+                  stroke="var(--hair-light)"
+                  strokeWidth="1"
+                />
+              </svg>
+            )}
+            <span className="colhead vignette-cap">{label}</span>
+          </div>
+        );
+      })}
     </div>
   );
 }

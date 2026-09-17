@@ -8,9 +8,17 @@ import type { NextConfig } from "next";
  * on Vercel, where public/ is served from the CDN and not on disk, and would
  * silently fall back to the SVG scenes.
  */
-const RENDERS = ["hero-pitch.jpg", "closer-match.jpg"].filter((file) =>
-  existsSync(join(process.cwd(), "public", "renders", file)),
-);
+const RENDERS = [
+  "hero-pitch.jpg",
+  "closer-match.jpg",
+  "how/office.png",
+  "how/transit.png",
+  "how/pitch.png",
+  "courts/football.jpg",
+  "courts/padel.jpg",
+  "courts/tennis.jpg",
+  "courts/basketball.jpg",
+].filter((file) => existsSync(join(process.cwd(), "public", "renders", file)));
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
