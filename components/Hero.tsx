@@ -3,13 +3,20 @@ import { HERO } from "@/content/copy";
 import { SLOTS, formatNaira } from "@/content/venues";
 import { HERO_RENDER, hasRender } from "@/lib/renders";
 import { HeroPins } from "./HeroPins";
+import { HeroPlay } from "./HeroPlay";
 import { LiveDot } from "./LiveDot";
 import { Nav } from "./Nav";
 import { PitchScene } from "./PitchScene";
 import { SearchBar } from "./SearchBar";
 
+/**
+ * Spec §5.2, plus a third layer: a wash over the copy block's corner. The
+ * shipped render has its pin labels baked in and the lower-left one lands on
+ * the eyebrow, so it is sunk rather than left to fight the text. The right-hand
+ * pins stay crisp. This layer comes out with the label-free render (spec §11).
+ */
 const SCRIM =
-  "linear-gradient(180deg, rgba(5,16,9,.62) 0%, rgba(5,16,9,.05) 16%, rgba(5,16,9,0) 50%, rgba(5,16,9,.70) 76%, rgba(5,16,9,.94) 100%), linear-gradient(90deg, rgba(5,16,9,.30) 0%, rgba(5,16,9,0) 45%)";
+  "radial-gradient(118% 66% at 8% 74%, rgba(5,16,9,.97) 0%, rgba(5,16,9,.92) 34%, rgba(5,16,9,.62) 56%, rgba(5,16,9,0) 80%), linear-gradient(180deg, rgba(5,16,9,.62) 0%, rgba(5,16,9,.05) 16%, rgba(5,16,9,0) 50%, rgba(5,16,9,.70) 76%, rgba(5,16,9,.94) 100%), linear-gradient(90deg, rgba(5,16,9,.30) 0%, rgba(5,16,9,0) 45%)";
 
 export function Hero() {
   const render = hasRender(HERO_RENDER);
@@ -36,7 +43,7 @@ export function Hero() {
       <div className="hero-scrim" style={{ background: SCRIM }} aria-hidden="true" />
 
       {/* Pins sit above the scrim so the labels stay crisp. */}
-      {render ? null : <HeroPins />}
+      {render ? <HeroPlay /> : <HeroPins />}
 
       <Nav />
 

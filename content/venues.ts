@@ -19,7 +19,7 @@ export type Slot = {
   price: number;
   /** Availability tag. Empty string renders nothing. */
   tag: string;
-  /** Pin position on the hero render, as % of the render box. */
+  /** Pin position as % of the hero render (2752x1536). Ikeja has no pin in the shipped render. */
   pin: { x: number; y: number };
 };
 
@@ -33,7 +33,7 @@ export const SLOTS: Slot[] = [
     sportSlug: "football",
     price: 18000,
     tag: "1 left",
-    pin: { x: 22, y: 52 },
+    pin: { x: 27.8, y: 65.0 },
   },
   {
     slug: "yaba-sports-hub",
@@ -44,7 +44,7 @@ export const SLOTS: Slot[] = [
     sportSlug: "football",
     price: 25000,
     tag: "",
-    pin: { x: 30, y: 30 },
+    pin: { x: 33.1, y: 34.8 },
   },
   {
     slug: "island-padel-club",
@@ -55,7 +55,7 @@ export const SLOTS: Slot[] = [
     sportSlug: "padel",
     price: 20000,
     tag: "2 courts",
-    pin: { x: 50, y: 41 },
+    pin: { x: 52.1, y: 43.2 },
   },
   {
     slug: "astro-park-surulere",
@@ -66,7 +66,7 @@ export const SLOTS: Slot[] = [
     sportSlug: "football",
     price: 15000,
     tag: "",
-    pin: { x: 80, y: 47 },
+    pin: { x: 80.5, y: 53.8 },
   },
   {
     slug: "ikeja-courts-club",
@@ -77,7 +77,7 @@ export const SLOTS: Slot[] = [
     sportSlug: "tennis",
     price: 8000,
     tag: "",
-    pin: { x: 64, y: 21 },
+    pin: { x: 60.0, y: 22.0 },
   },
   {
     slug: "akoka-hoops",
@@ -88,7 +88,7 @@ export const SLOTS: Slot[] = [
     sportSlug: "basketball",
     price: 10000,
     tag: "Floodlit",
-    pin: { x: 85, y: 31 },
+    pin: { x: 74.9, y: 25.3 },
   },
 ];
 

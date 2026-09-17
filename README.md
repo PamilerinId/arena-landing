@@ -43,16 +43,16 @@ lib/          analytics shim, reveal hook, date helpers, render detection
 Tokens (colour, type scale, radii, easing) are CSS variables in `app/globals.css`.
 Copy is in `content/copy.ts` — components never inline strings.
 
-## Two things are deliberately unfinished
+## One thing is deliberately unfinished
 
-**The renders.** `public/renders/hero-pitch.jpg` and `closer-match.jpg` are not in
-the repo. Until they are, both sections draw an inline SVG scene instead, detected
-at build time in `lib/renders.ts`. See [`public/renders/README.md`](public/renders/README.md).
+**The renders** are in `public/renders/` and served through `next/image`. `lib/renders.ts`
+checks for them at build time; if either goes missing the section falls back to an
+inline SVG scene. See [`public/renders/README.md`](public/renders/README.md).
 
-**Two numbers.** `CANCELLATION_HOURS` and `TAKE_RATE_PCT` in `content/placeholders.ts`
-are `null` and render as `[X]` in three places on the page — how-it-works step 03,
-the owners board's "No listing fee", and the trust row's "Free cancellation".
-They are founder decisions. Set them and the `[X]`s disappear.
+**The policy numbers.** `CANCELLATION_HOURS` (24) and `TAKE_RATE_PCT` (10) live in
+`content/placeholders.ts` and flow into three places on the page — how-it-works
+step 03, the owners board's "No listing fee", and the trust row's "Free
+cancellation". Set either back to `null` and it renders as `[X]`.
 
 ## Analytics
 
