@@ -21,29 +21,54 @@ export function HowItWorks() {
       </Reveal>
 
       {SCENES ? (
-        <Reveal delay={100} className="how-strip">
-          <Triptych />
-        </Reveal>
+        <div className="how-flow">
+          {HOW.steps.map((step, i) => (
+            <div key={step.n} className="how-item">
+              <Reveal delay={100 + i * 90} className="how-scene">
+                <Image
+                  src={`/renders/${SCENES[i].src}`}
+                  alt=""
+                  fill
+                  sizes="(max-width: 767px) 100vw, 34vw"
+                  quality={72}
+                  style={{ objectFit: "cover" }}
+                />
+              </Reveal>
+              <Reveal delay={150 + i * 90} className="how-step">
+                <Step step={step} />
+              </Reveal>
+            </div>
+          ))}
+        </div>
       ) : (
-        <Reveal delay={100} className="how-panel">
-          <Vignettes />
-        </Reveal>
-      )}
-
-      <div className="how-steps">
-        {HOW.steps.map((s, i) => (
-          <Reveal key={s.n} delay={150 + i * 100}>
-            <span className="display display-sm" style={{ fontSize: 30, color: "var(--ink-3)" }}>
-              {s.n}
-            </span>
-            <h3 style={{ fontSize: 22, fontWeight: 700, margin: "12px 0 10px", letterSpacing: "-0.01em" }}>
-              {s.title}
-            </h3>
-            <p style={{ fontSize: 16, color: "var(--ink-2)" }}>{s.body}</p>
+        <>
+          <Reveal delay={100} className="how-panel">
+            <Vignettes />
           </Reveal>
-        ))}
-      </div>
+          <div className="how-steps">
+            {HOW.steps.map((step, i) => (
+              <Reveal key={step.n} delay={150 + i * 100}>
+                <Step step={step} />
+              </Reveal>
+            ))}
+          </div>
+        </>
+      )}
     </section>
+  );
+}
+
+function Step({ step }: { step: (typeof HOW.steps)[number] }) {
+  return (
+    <>
+      <span className="display display-sm" style={{ fontSize: 30, color: "var(--ink-3)" }}>
+        {step.n}
+      </span>
+      <h3 style={{ fontSize: 22, fontWeight: 700, margin: "12px 0 10px", letterSpacing: "-0.01em" }}>
+        {step.title}
+      </h3>
+      <p style={{ fontSize: 16, color: "var(--ink-2)" }}>{step.body}</p>
+    </>
   );
 }
 
@@ -52,34 +77,6 @@ const SCENES = (() => {
   const all = HOW.vignettes.map((_, i) => vignetteRender(i));
   return all.every((x) => x !== null) ? (all as { src: string; cutout: boolean }[]) : null;
 })();
-
-/**
- * The three scenes as one full-bleed strip. Each panel is cover-cropped and
- * dissolves into its neighbours and into the page above and below; no frame,
- * no baseline. A cut-out (transparent PNG) sits on a dusk wash until its full
- * scene lands.
- */
-function Triptych() {
-  return (
-    <div className="how-triptych" aria-hidden="true">
-      {SCENES!.map((scene, i) => (
-        <div key={scene.src} className="how-scene" data-cutout={scene.cutout ? "" : undefined}>
-          <div className="how-scene-img">
-            <Image
-              src={`/renders/${scene.src}`}
-              alt=""
-              fill
-              sizes="(max-width: 767px) 100vw, 34vw"
-              quality={72}
-              style={{ objectFit: "cover" }}
-            />
-          </div>
-          <span className="colhead vignette-cap how-scene-cap">{HOW.vignettes[i]}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
 
 /** Placeholder line-work, used until all three scenes are in. */
 function Vignettes() {

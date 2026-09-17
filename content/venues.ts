@@ -19,8 +19,10 @@ export type Slot = {
   price: number;
   /** Availability tag. Empty string renders nothing. */
   tag: string;
-  /** Pin position as % of the hero render (2752x1536). Ikeja has no pin in the shipped render. */
+  /** Pin position as % of the hero render (2752x1536), for the fallback scenes. */
   pin: { x: number; y: number };
+  /** Where the venue sits on the hero's pitch plan, in its 900x560 viewBox. */
+  spot: { x: number; y: number };
 };
 
 export const SLOTS: Slot[] = [
@@ -34,6 +36,7 @@ export const SLOTS: Slot[] = [
     price: 18000,
     tag: "1 left",
     pin: { x: 27.8, y: 65.0 },
+    spot: { x: 235, y: 424 },
   },
   {
     slug: "yaba-sports-hub",
@@ -45,6 +48,7 @@ export const SLOTS: Slot[] = [
     price: 25000,
     tag: "",
     pin: { x: 33.1, y: 34.8 },
+    spot: { x: 250, y: 162 },
   },
   {
     slug: "island-padel-club",
@@ -56,6 +60,7 @@ export const SLOTS: Slot[] = [
     price: 20000,
     tag: "2 courts",
     pin: { x: 52.1, y: 43.2 },
+    spot: { x: 452, y: 300 },
   },
   {
     slug: "astro-park-surulere",
@@ -67,6 +72,7 @@ export const SLOTS: Slot[] = [
     price: 15000,
     tag: "",
     pin: { x: 80.5, y: 53.8 },
+    spot: { x: 700, y: 402 },
   },
   {
     slug: "ikeja-courts-club",
@@ -78,6 +84,7 @@ export const SLOTS: Slot[] = [
     price: 8000,
     tag: "",
     pin: { x: 60.0, y: 22.0 },
+    spot: { x: 436, y: 104 },
   },
   {
     slug: "akoka-hoops",
@@ -89,6 +96,7 @@ export const SLOTS: Slot[] = [
     price: 10000,
     tag: "Floodlit",
     pin: { x: 74.9, y: 25.3 },
+    spot: { x: 692, y: 180 },
   },
 ];
 
