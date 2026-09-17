@@ -406,23 +406,41 @@ html.reveal-ready [data-reveal].on {
   padding-bottom: 20px;
 }
 .how-vignette svg { width: 100%; height: auto; }
-.how-art {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 437 / 260;
-  padding-bottom: 48px; /* art sits on the same baseline as the placeholders */
-  box-sizing: border-box;
+/* The scenes as one band that bleeds past the gutter. Panels dissolve into
+   each other and into the page; nothing frames them. */
+.how-strip { margin-inline: calc(var(--gutter) * -1); }
+.how-triptych {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
 }
-.how-art::after {
-  content: "";
+.how-scene { position: relative; height: 440px; padding-bottom: 44px; }
+/* Only the image is masked, on two composited layers: a horizontal dissolve
+   into the neighbours and a vertical one into the page. The caption sits
+   outside the mask, on the faded bottom edge. */
+.how-scene-img {
+  --fade-x: linear-gradient(90deg, transparent 0, #000 14%, #000 86%, transparent 100%);
+  --fade-y: linear-gradient(180deg, transparent 0, #000 16%, #000 78%, transparent 100%);
+  position: absolute;
+  inset: 0;
+  -webkit-mask-image: var(--fade-x), var(--fade-y);
+  -webkit-mask-composite: source-in;
+  mask-image: var(--fade-x), var(--fade-y);
+  mask-composite: intersect;
+}
+.how-scene:first-child .how-scene-img {
+  --fade-x: linear-gradient(90deg, #000 0, #000 86%, transparent 100%);
+}
+.how-scene:last-child .how-scene-img {
+  --fade-x: linear-gradient(90deg, transparent 0, #000 14%, #000 100%);
+}
+.how-scene-cap {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 48px;
-  height: 1px;
-  background: var(--hair-light);
+  bottom: 6px;
+  text-align: center;
+  color: var(--ink-3);
 }
-.how-art img { bottom: 48px !important; height: auto !important; top: auto !important; max-height: calc(100% - 48px); }
 .how-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
 
 /* ── Scoreboard ──────────────────────────────────────────────────────────── */
@@ -440,6 +458,12 @@ html.reveal-ready [data-reveal].on {
 /* Photo courts: below the scrim (z 1) and the turf fibres, above the flat colour. */
 .scoreboard-courts { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
 .scoreboard-courts .court { position: absolute; inset: 0; }
+/* The photos frame the whole facility; the board wants the playing surface. */
+.scoreboard-courts img { transform: scale(1.45); transform-origin: 50% 50%; }
+/* With a photo underneath, the turf scrim is too heavy; the plane carries the contrast. */
+.scoreboard:has(.scoreboard-courts .court) .scoreboard-scrim {
+  background: linear-gradient(180deg, rgba(5, 16, 9, 0.6), rgba(5, 16, 9, 0.5) 50%, rgba(5, 16, 9, 0.78)) !important;
+}
 .scoreboard-scrim, .scoreboard-markings {
   position: absolute;
   inset: 0;
@@ -780,6 +804,14 @@ html.reveal-ready [data-reveal].on {
   .sports-list { width: 100%; gap: 26px; }
 
   .how-vignettes { grid-template-columns: 1fr; gap: 12px; }
+  .how-triptych { grid-template-columns: 1fr; mask-image: none; -webkit-mask-image: none; }
+  .how-scene { height: 300px; padding-bottom: 40px; }
+  .how-scene .how-scene-img,
+  .how-scene:first-child .how-scene-img,
+  .how-scene:last-child .how-scene-img {
+    --fade-x: linear-gradient(90deg, #000, #000);
+    --fade-y: linear-gradient(180deg, transparent 0, #000 12%, #000 84%, transparent 100%);
+  }
   .how-steps { grid-template-columns: 1fr; gap: 36px; }
 
   .scoreboard-plane { padding: 6px 8px; min-height: 0; }

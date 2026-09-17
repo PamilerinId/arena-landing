@@ -13,8 +13,17 @@ export function hasRender(file: string): boolean {
 export const HERO_RENDER = "hero-pitch.jpg";
 export const CLOSER_RENDER = "closer-match.jpg";
 
-/** One cut-out per how-it-works step, in step order. Transparent PNGs. */
-export const VIGNETTE_RENDERS = ["how/office.png", "how/transit.png", "how/pitch.png"] as const;
+/** One scene per how-it-works step, in step order. */
+const VIGNETTE_NAMES = ["how/office", "how/transit", "how/pitch"] as const;
+
+/** The scene file for a step: the full JPG when it exists, else a transparent PNG, else null. */
+export function vignetteRender(step: number): { src: string; cutout: boolean } | null {
+  const name = VIGNETTE_NAMES[step];
+  if (!name) return null;
+  if (hasRender(`${name}.jpg`)) return { src: `${name}.jpg`, cutout: false };
+  if (hasRender(`${name}.png`)) return { src: `${name}.png`, cutout: true };
+  return null;
+}
 
 /** One photo per court under the scoreboard, keyed by tab sport. */
 export const COURT_RENDERS = {
