@@ -1,9 +1,9 @@
 /**
- * Founder decisions that are not made yet.
- * Anything null renders as "[X]" on the page. Never invent a value here.
+ * Founder policy numbers. Set either back to null and it renders as "[X]"
+ * on the page. Never invent a value here.
  */
-export const CANCELLATION_HOURS = 24 | null;
-export const TAKE_RATE_PCT = 10 | null;
+export const CANCELLATION_HOURS: number | null = 24;
+export const TAKE_RATE_PCT: number | null = 10;
 
 /** Renders a placeholder token when the decision is still open. */
 export function ph(value: number | null): string {
